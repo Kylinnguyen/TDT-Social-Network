@@ -1,0 +1,334 @@
+<!-- Đang được bao bởi <div class="container wrapper"> và <div class="row">-->
+<!--start: phần nội dung chính-->
+
+<!--start: phần bao thanh điều hướng, timeline và thông báo-->
+  {{#with account}} {{!Nếu đã đến được home thì chắc chắn có account}}
+  <div class="col-xl-11 col-lg-11 mx-auto row">
+  <!--strat: thanh điều hướng-->
+  <div class="my-bg-1 my-nav-1 p-0">
+    <ul class="nav nav-pills">
+      <li class="nav-item">
+        <a class="nav-link my-active-2" aria-current="page" href="#">Dòng thời gian</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Thông báo</a>
+        <ul class="dropdown-menu">
+          <li><a class="dropdown-item" href="#">Tất cả</a></li>
+          <li><a class="dropdown-item" href="#">Theo phòng, khoa</a></li>
+           {{#notification_manager_show rolecode}}
+              <li><a class="dropdown-item" href="#">Quản lý thông báo</a></li>
+           {{/notification_manager_show}}
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <!--end: thanh điều hướng-->
+  
+  <!--start: phần timeline-->
+  <div class="col-xl-8 col-lg-8 timeline-wrapper">
+    <!--Chỗ nhấn đăng bài-->
+    <div class="post to-new-post p-4">
+      <!--Chỗ hiển thị ảnh đại diện và cái chỗ nhấn hiện form đăng bài-->
+      <div class="top-post">
+        <a href="#" class="me-2">
+          <img src="{{information.avatar}}" class="avatar-img-round">
+        </a>
+        <div class="click-to-new-post sm-text">
+          Muốn ghi gì nào bạn hiền ?
+        </div>
+      </div>
+    </div>
+    {{/with}}
+    <div class="post-wrapper">
+      <!--Bài đăng 1 - có hình ảnh -->
+      <div class="post p-4" id="nhappostid">
+        <!--phần đầu bài-->
+        <div class="top-post">
+          <a href="#" class="me-2 top-post-avatar">
+            <img src="{{information.avatar}}" class="avatar-img-round">
+          </a>
+          <!--Phần tên hiển thị-->
+          <div class="top-post-infor sm-text">
+            <div class="bold-text"><a href="#">Tô Thanh Tín</a></div>
+            <div>2 tiếng trước</div> <!--dùng sau này hiển thị thời gian-->
+          </div>
+          <!--Phần dropdown dùng để hiển thị lựa chọn chỉnh sửa hoặc xóa -- chỉ dành cho bài viết của bản thân-->
+          <div class="dropdown">
+            <button class="btn btn-secondary sm-text dropdown-post" type="button" id="dropdownPost" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-ellipsis-h"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownPost">
+              <li><a data-id="nhappostid" class="dropdown-item editpost" href="#" onclick="showModalEditPost(this,event);">Chỉnh sửa</a></li>
+              <li><a data-id="nhappostid" class="dropdown-item deletepost" href="#" onclick="showModalDeletePost(this,event);">Xóa</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <!--phần nội dung-->
+        <div class="content-post-wrapper">
+          <span class="content-post"> dfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdffdfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdff</span>
+        </div>
+        <!--Phần hình ảnh - video -->
+        <hr>
+        <div >
+          <div class="img-post-wrapper options-img-videos-wrapper" data-id="nhappostid">
+            <div class="options-post-child" data-id="hinh1" onclick="showModalMiniPost(this);">
+              <img id="hinh1" src="https://scontent.fvca1-2.fna.fbcdn.net/v/t1.6435-9/164584792_3717412211647977_188027701257778328_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=730e14&_nc_ohc=ORGaN-C1ljMAX-vSOrk&_nc_ht=scontent.fvca1-2.fna&oh=44f315394c4098a3e0e9a9ec7afd9ebe&oe=608817DA" class="d-block w-100">
+            </div>
+            <hr>
+            <div class="options-post-child" data-id="hinh2" onclick="showModalMiniPost(this);">
+              <img id="hinh2" src="https://scontent.fvca1-2.fna.fbcdn.net/v/t1.6435-9/128194012_1111179915989899_5561972650668570089_n.jpg?_nc_cat=101&ccb=1-3&_nc_sid=09cbfe&_nc_ohc=V84tXILHK4YAX_A77FD&_nc_ht=scontent.fvca1-2.fna&oh=9631c506bc946427b298e1e175eb2897&oe=608A2BD4" class="d-block w-100">
+            </div>
+            <hr>
+            <div class="video-post-wrapper" data-id="hinh3" onclick="showModalMiniPost(this);">
+              <iframe data-url="https://youtube.com/9HUYlvazIfk" id="hinh3" width="100%" height="350" src="https://youtube.com/embed/9HUYlvazIfk" allowfullscreen></iframe>
+            </div>
+            <div class="video-post-wrapper" data-id="hinh4" onclick="showModalMiniPost(this);">
+              <iframe data-url="https://youtube.com/9HUYlvazIfk" id="hinh4" width="100%" height="350" src="https://youtube.com/embed/9HUYlvazIfk" allowfullscreen></iframe>
+            </div>
+        </div>
+        </div>
+        
+        <!--start: Phần bình luận-->
+        <hr>
+        <div class="comment-post"> <!--Chỗ nhập bình luận của bản thân-->
+          <a href="#" class="me-2">
+              <img src="{{information.avatar}}" class="avatar-img-round avatar-img-round-comment">
+          </a>
+          <input data-id="testcommentype" type="text" class="my-input my-input-round input-comment" placeholder="Bình luận của bạn" name="comment" id="comment" onkeydown="typeComment(this,event);">
+        </div>
+        <div class="comment-post-wrapper"> <!--Các bình luận của bài post-->
+          <div class="comment-post" id="commenttestid"> <!--1 bình luận-->
+            <a href="#" class="avatar-post-wrapper me-2">
+                <img src="{{information.avatar}}" class="avatar-img-round avatar-img-round-comment">
+            </a>
+            <div class="comment me-2">
+              <div class="content-comment"> <!--nội dung comment gồm tên người cmt và nội dung cmt-->
+                <div class="bold-text"><a href="#">Tô Thanh Tín</a></div>
+                <div>tnidfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdffdfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdff</div>
+              </div>
+              <div class="time-comment ssm-text bold-text"> <!--Thời gian comment-->
+                2 tiếng
+              </div>
+            </div>
+            <div class="comment-edit"> <!--CHỉ hiển thị đối với comment của bản thân hoặc admin-->
+              <!--Phần dropdown dùng để hiển thị lựa chọn chỉnh sửa hoặc xóa -- chỉ dành cho bài viết của bản thân-->
+              <div class="dropdown">
+                <button class="btn btn-secondary sm-text dropdown-post" type="button" id="dropdownPost" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-h comment-edit-symbol"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownPost">
+                  <li><a class="dropdown-item deletecomment" href="#" data-id="commenttestid" onclick="showModalDeleteComment(this,event);">Xóa</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="comment-post"> <!--1 bình luận-->
+            <a href="#" class="avatar-post-wrapper me-2">
+                <img src="{{information.avatar}}" class="avatar-img-round avatar-img-round-comment">
+            </a>
+            <div class="comment me-2">
+              <div class="content-comment"> <!--nội dung comment gồm tên người cmt và nội dung cmt-->
+                <div class="bold-text"><a href="#">Tô Thanh Tín</a></div>
+                <div>dfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdffdfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdff</div>
+              </div>
+              <div class="time-comment ssm-text bold-text"> <!--Thời gian comment-->
+                2 tiếng
+              </div>
+            </div>
+            <div class="comment-edit"> <!--CHỉ hiển thị đối với comment của bản thân hoặc admin-->
+              <!--Phần dropdown dùng để hiển thị lựa chọn chỉnh sửa hoặc xóa -- chỉ dành cho bài viết của bản thân-->
+              <div class="dropdown">
+                <button class="btn btn-secondary sm-text dropdown-post" type="button" id="dropdownPost" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-h comment-edit-symbol"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownPost">
+                  <li><a class="dropdown-item deletecomment" href="#" data-id="">Xóa</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="comment-post"> <!--1 bình luận-->
+            <a href="#" class="avatar-post-wrapper me-2">
+                <img src="{{information.avatar}}" class="avatar-img-round avatar-img-round-comment">
+            </a>
+            <div class="comment me-2">
+              <div class="content-comment"> <!--nội dung comment gồm tên người cmt và nội dung cmt-->
+                <div class="bold-text"><a href="#">Tô Thanh Tín</a></div>
+                <div>dfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdffdfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdff</div>
+              </div>
+              <div class="time-comment ssm-text bold-text"> <!--Thời gian comment-->
+                2 tiếng
+              </div>
+            </div>
+            <div class="comment-edit"> <!--CHỉ hiển thị đối với comment của bản thân hoặc admin-->
+              <!--Phần dropdown dùng để hiển thị lựa chọn chỉnh sửa hoặc xóa -- chỉ dành cho bài viết của bản thân-->
+              <div class="dropdown">
+                <button class="btn btn-secondary sm-text dropdown-post" type="button" id="dropdownPost" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-h comment-edit-symbol"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownPost">
+                  <li><a class="dropdown-item deletecomment" href="#">Xóa</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end: Phần bình luận-->
+        
+        <div> <!--Mặc định ta sẽ hiển thị ít nhất 2 comment -- nếu còn nữa thì sẽ nhấn vào đây để tải thêm comment-->
+          <a data-id="testcomment" href="#" class="blue-text" onclick="getMoreComment(this,event);">Xem thêm bình luận</a>
+        </div>
+      
+      </div>
+      
+      <!--Bài đăng 2 -- có video -->
+      <div class="post p-4">
+      <!--phần đầu bài-->
+        <div class="top-post">
+          <a href="#" class="me-2">
+            <img src="{{information.avatar}}" class="avatar-img-round">
+          </a>
+          <!--Phần tên hiển thị-->
+          <div class="top-post-infor sm-text">
+            <div class="bold-text"><a href="#">Tô Thanh Tín</a></div>
+            <div>2 tiếng trước</div> <!--dùng sau này hiển thị thời gian-->
+          </div>
+          <!--Phần dropdown dùng để hiển thị lựa chọn chỉnh sửa hoặc xóa -- chỉ dành cho bài viết của bản thân-->
+          <div class="dropdown">
+            <button class="btn btn-secondary sm-text dropdown-post" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="fas fa-ellipsis-h"></i>
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+              <li><a class="dropdown-item editpost" href="#">Chỉnh sửa</a></li>
+              <li><a class="dropdown-item deletepost" href="#">Xóa</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <!--phần nội dung-->
+        <div class="content-post-wrapper">
+        <span> Trang Twitter của các hãng thức ăn nhanh lớn trên thế giới tại Tây Ban Nha đang trêu nhau.Trang Twitter của các hãng thức ăn nhanh lớn trên thế giới tại Tây Ban Nha đang trêu nhau.Trang Twitter của các hãng thức ăn nhanh lớn trên thế giới tại Tây Ban Nha đang trêu nhau.</span>
+        </div>
+        <!--Phần video--> <!--trong backend -- khi xử lý đường link video mà người dùng có cung cấp -- thì chỉ cần
+                                                lấy cái video id (mã số sau dấu / cuối cùng) và sử dụng https://youtube.com/embed/maso -->
+        <div class="video-post-wrapper">
+          <iframe width="100%" height="350" src="https://youtube.com/embed/9HUYlvazIfk"></iframe>
+        </div>
+
+        <!--start: Phần bình luận-->
+        <hr>
+        <div class="comment-post"> <!--Chỗ nhập bình luận của bản thân-->
+          <a href="#" class="me-2">
+              <img src="{{information.avatar}}" class="avatar-img-round avatar-img-round-comment">
+          </a>
+          <input type="text" class="my-input my-input-round" placeholder="Bình luận của bạn" name="comment" id="comment">
+        </div>
+        <div class="comment-post-wrapper"> <!--Các bình luận của bài post-->
+          <div class="comment-post"> <!--1 bình luận-->
+            <a href="#" class="avatar-post-wrapper me-2">
+                <img src="{{information.avatar}}" class="avatar-img-round avatar-img-round-comment">
+            </a>
+            <div class="comment me-2">
+              <div class="content-comment"> <!--nội dung comment gồm tên người cmt và nội dung cmt-->
+                <div class="bold-text"><a href="#">Tô Thanh Tín</a></div>
+                <div>dfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdffdfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdff</div>
+              </div>
+              <div class="time-comment ssm-text bold-text"> <!--Thời gian comment-->
+                2 tiếng
+              </div>
+            </div>
+            <div class="comment-edit"> <!--CHỉ hiển thị đối với comment của bản thân hoặc admin-->
+              <!--Phần dropdown dùng để hiển thị lựa chọn chỉnh sửa hoặc xóa -- chỉ dành cho bài viết của bản thân-->
+              <div class="dropdown">
+                <button class="btn btn-secondary sm-text dropdown-post" type="button" id="dropdownPost" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-h comment-edit-symbol"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownPost">
+                  <li><a class="dropdown-item deletecomment" href="#">Xóa</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="comment-post"> <!--1 bình luận-->
+            <a href="#" class="avatar-post-wrapper me-2">
+                <img src="{{information.avatar}}" class="avatar-img-round avatar-img-round-comment">
+            </a>
+            <div class="comment me-2">
+              <div class="content-comment"> <!--nội dung comment gồm tên người cmt và nội dung cmt-->
+                <div class="bold-text"><a href="#">Tô Thanh Tín</a></div>
+                <div>dfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdffdfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdff</div>
+              </div>
+              <div class="time-comment ssm-text bold-text"> <!--Thời gian comment-->
+                2 tiếng
+              </div>
+            </div>
+            <div class="comment-edit"> <!--CHỉ hiển thị đối với comment của bản thân hoặc admin-->
+              <!--Phần dropdown dùng để hiển thị lựa chọn chỉnh sửa hoặc xóa -- chỉ dành cho bài viết của bản thân-->
+              <div class="dropdown">
+                <button class="btn btn-secondary sm-text dropdown-post" type="button" id="dropdownPost" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-h comment-edit-symbol"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownPost">
+                  <li><a class="dropdown-item deletecomment" href="#">Xóa</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="comment-post"> <!--1 bình luận-->
+            <a href="#" class="avatar-post-wrapper me-2">
+                <img src="{{information.avatar}}" class="avatar-img-round avatar-img-round-comment">
+            </a>
+            <div class="comment me-2">
+              <div class="content-comment"> <!--nội dung comment gồm tên người cmt và nội dung cmt-->
+                <div class="bold-text"><a href="#">Tô Thanh Tín</a></div>
+                <div>dfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdffdfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdff</div>
+              </div>
+              <div class="time-comment ssm-text bold-text"> <!--Thời gian comment-->
+                2 tiếng
+              </div>
+            </div>
+            <div class="comment-edit"> <!--CHỉ hiển thị đối với comment của bản thân hoặc admin-->
+              <!--Phần dropdown dùng để hiển thị lựa chọn chỉnh sửa hoặc xóa -- chỉ dành cho bài viết của bản thân-->
+              <div class="dropdown">
+                <button class="btn btn-secondary sm-text dropdown-post" type="button" id="dropdownPost" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fas fa-ellipsis-h comment-edit-symbol"></i>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownPost">
+                  <li><a class="dropdown-item deletecomment" href="#">Xóa</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!--end: Phần bình luận-->
+        
+        <div> <!--Mặc định ta sẽ hiển thị ít nhất 2 comment -- nếu còn nữa thì sẽ nhấn vào đây để tải thêm comment-->
+          <a href="#" class="blue-text">Xem thêm bình luận</a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+  <!--end: phần timeline-->
+
+  <!--start: phần thông báo-->
+  <div class="col-xl-4 col-lg-4 p-4 notification-wrapper">
+    <div class="top-notification"> <!--Phần đầu của ô chứa các thông báo-->
+    <div>Thông báo</div>
+    <div><a href="/notification" class="blue-text">Xem tất cả</a></div>
+    </div>
+    <hr>
+    {{!onload="setGiveNotification();" để thiết lập kết nối nhận thông báo từ phía server}}
+    <div class="body-notification"> <!--Phần chứa các thông báo (hiển thị phòng khoa - thời gian - tiêu đề)-->
+      {{#showListNotifications notifications}}
+      {{/showListNotifications}}
+    </div>
+  </div>
+  <!--end: phần thông báo-->
+  </div>
+  
+<!--end: phần bao thanh điều hướng, timeline và thông báo-->
+  
+
+<!--end: phần nội dung chính-->

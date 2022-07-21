@@ -1,0 +1,103 @@
+<div class="col-xl-11 col-lg-11 mx-auto row">
+                    <!--strat: thanh điều hướng-->
+                   <div class="my-bg-1 p-0 my-nav-1">
+                      <ul class="nav nav-pills">
+                        <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="/home">Dòng thời gian</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Thông báo</a>
+                          <ul class="dropdown-menu p-0">
+                            <li><a class="dropdown-item" href="/notification">Tất cả</a></li>
+                            <li><a class="dropdown-item" href="/department">Theo phòng, khoa</a></li>
+                            {{#notification_manager_show account.rolecode}} {{!Helper xét rolecode của account để hiển thị phần quản lý thông báo}}
+                              <li><a class="dropdown-item" href="/notification/add">Thêm thông báo</a></li>
+                              <li><a class="dropdown-item" href="/notification/manager">Quản lý thông báo</a></li>
+                            {{/notification_manager_show}}
+                            
+                          </ul>
+                        </li>
+                        
+                      </ul>
+                    </div>
+                    <!--end: thanh điều hướng-->
+                    <!--start: phần chỉnh sửa thông tin cá nhân-->
+                    
+                    <div class="p-4 information-form">
+                      {{#accounts_manager_show account.rolecode}}
+                      <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+                        <a href="/account/manager">
+                          <i class="fas fa-arrow-left blue-text"></i>
+                        </a>
+                        <a href="/account/setting?id={{accountToChange.id}}">
+                          <i class="fas fa-user-cog red-text"></i>
+                        </a>
+                      </div>
+                      
+                      {{/accounts_manager_show}}
+                      <div class="bg-text blue-text">Thông tin cá nhân</div>
+    
+                      {{#with accountToChange}}
+                      <form action="/account/information?id={{id}}" method="post" enctype="multipart/form-data">
+
+
+                        <label for="username-input"  class="blue-text">Tên tài khoản</label> <br>
+                        <input disabled type="text" id="username-input" class="my-input" value="{{username}}"> <br>
+
+                        <label for="showname-input"  class="blue-text">Tên hiển thị</label> <br>
+                        <input type="text" name="showname" id="showname-input" class="my-input" placeholder="Nhập tên hiển thị" value="{{showname}}"> <br>
+                        {{#showClassName rolecode}}
+                        <label for="class-input"  class="blue-text">Lớp</label> <br>
+                        <input type="text" name="classname" id="class-input" class="my-input" placeholder="Nhập lớp" value="{{classname}}"> <br>
+                        {{/showClassName}}
+                        {{/with}}
+                        <label for="faculty-input" class="blue-text">Phòng-Khoa</label> <br>
+                        <select class="select-notification" name="department" id="faculty-input">
+                          {{#showDepartmentForAccountInformation accountToChange.department departments}}
+                          {{/showDepartmentForAccountInformation}}
+                        </select><br>
+                        {{#with accountToChange}}
+                        <label for="files-input" class="blue-text">Ảnh đại diện</label> <br>
+                        <input class="my-file-input" type="file" id="information-files-input" name="avatar" accept="image/*" > <br>
+                        
+                        <div class="file-attach-wrapper"><!--Hiển thị khi chỉnh sửa thông tin cá nhân-->
+                          <div class="blue-text">Ảnh đại diện hiện tại</div>
+                          <div>
+                            <img id="information-image" class="avatar-img-square" src="{{avatar}}">
+                          </div>
+                        </div>
+                        {{!Hiển thị danh sách phognf khoa đang phụ trách (nếu có - dành cho tk PK)}}
+                        {{#if departresponsible.length}}
+                          <div class="departresponsible-wrapper">
+                            <div class="blue-text">Phòng khoa phụ trách</div>
+                            {{#each departresponsible}}
+                              <div class="d-flex flex-row align-items-center mt-2"> <input type="checkbox" value="{{id}}" checked disabled> <label for="{{id}}" class="ms-2">{{departname}}</label> </div>
+                            {{/each}}
+                          </div>
+                        {{/if}}
+                        {{/with}}
+
+                        {{!Khi có thông báo lỗi}}
+                        {{#if informationErr}}
+                          <div class="w-100 alert alert-danger alert-dismissible fade text-center p-2 show mt-3" role="alert">
+                            {{informationErr}}    
+                          </div>
+                        
+                        {{/if}}
+                        {{#if informationSucc}}
+                          <div class="w-100 alert alert-success alert-dismissible fade text-center p-2 show mt-3" role="alert">
+                            {{informationSucc}}    
+                          </div>
+                        
+                        {{/if}}
+                        
+
+
+                        <div> 
+                          <button type="submit" class="my-btn my-btn-1 mt-3 show-my-loading" id="edit-information">Cập nhật</button>
+                        </div>
+                      </form>
+                      
+                      
+                  </div>
+</div>

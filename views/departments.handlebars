@@ -1,0 +1,59 @@
+<!--start: phần bao thanh điều hướng, timeline và thông báo-->
+                  <div class="col-xl-11 col-lg-11 mx-auto row">
+                    <!--strat: thanh điều hướng-->
+                   <div class="my-bg-1 p-0 my-nav-1">
+                      <ul class="nav nav-pills">
+                        <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="/home">Dòng thời gian</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Thông báo</a>
+                          <ul class="dropdown-menu p-0">
+                            <li><a class="dropdown-item" href="/notification">Tất cả</a></li>
+                            <li><a class="dropdown-item" href="/department">Theo phòng, khoa</a></li>
+                            {{#notification_manager_show account.rolecode}} {{!Helper xét rolecode của account để hiển thị phần quản lý thông báo}}
+                              <li><a class="dropdown-item" href="/notification/add">Thêm thông báo</a></li>
+                              <li><a class="dropdown-item" href="/notification/manager">Quản lý thông báo</a></li>
+                            {{/notification_manager_show}}
+                            
+                          </ul>
+                        </li>
+                        
+                      </ul>
+                    </div>
+                    <!--end: thanh điều hướng-->
+
+                    <!--start: bảng danh sách tài khoản-->
+                
+                    <div class="my-bg-1">
+                      <div class="blue-text mt-3">Danh sách Phòng - Khoa</div>
+                      <div class="p-4 row departments-wrapper"><!--danh sách phòng khoa-->
+                        {{#each departments}}
+                        
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 col-12 department-wrapper">
+                          <a href="/notification?department={{id}}">
+                            <div class="department-top text-center">
+                              <img src="/img/project/default_department_logo.jpg">
+                            </div> 
+                            <div class="department-body">
+                              <div class="text-center md-text red-text">
+                                {{departname}}
+                              </div>
+                            </div>
+                          </a>
+                        </div>
+                       
+                        {{/each}}
+                       
+                        
+                        
+                          
+                          
+        
+                      </div>
+                    </div>
+                    <!--end: bảng danh sách tài khoản-->
+
+                    <!--start: phần thêm - chỉnh sửa thông báo-->
+                    
+                  </div>

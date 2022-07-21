@@ -1,0 +1,84 @@
+<div class="col-xl-11 col-lg-11 mx-auto row">
+                    <!--strat: thanh điều hướng-->
+                    <div class="my-bg-1 p-0 my-nav-1">
+                      <ul class="nav nav-pills">
+                        <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="/home">Dòng thời gian</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Thông báo</a>
+                          <ul class="dropdown-menu p-0">
+                            <li><a class="dropdown-item" href="/notification">Tất cả</a></li>
+                            <li><a class="dropdown-item" href="/department">Theo phòng, khoa</a></li>
+                            {{#notification_manager_show account.rolecode}} {{!Helper xét rolecode của account để hiển thị phần quản lý thông báo}}
+                              <li><a class="dropdown-item" href="/notification/add">Thêm thông báo</a></li>
+                              <li><a class="dropdown-item" href="/notification/manager">Quản lý thông báo</a></li>
+                            {{/notification_manager_show}}
+                            
+                          </ul>
+                        </li>
+                        
+                      </ul>
+                    </div>
+                    <!--end: thanh điều hướng-->
+                    <!--start: phần thêm - chỉnh sửa thông báo-->
+                    <div class="p-4 notification-form">
+                      <div class="mt-1">
+                        <a href="/notification/manager">
+                          <i class="fas fa-arrow-left blue-text"></i>
+                        </a>
+                      </div>
+                      <div class="bg-text blue-text">Thêm thông báo</div>
+                      <form action="/notification/add" method="post" enctype="multipart/form-data">
+                        <label for="title-input"  class="blue-text">Tiêu đề thông báo</label> <br>
+                        <input type="text" name="title" id="title-input" class="my-input" placeholder="Nhập tiêu đề" value="{{titleVal}}"> <br>
+
+                        <label for="content-input" class="blue-text">Nội dung</label> <br>
+                        <textarea class="textarea-notification" name="content" id="content-input" placeholder="Nhập nội dung">{{contentVal}}</textarea> <br>
+                        
+                        <label for="department-input" class="blue-text">Phòng-Khoa</label> <br>
+                        <select class="select-notification" name="department">
+                        {{#if departments.length}}
+                            {{#each departments}}
+                              <option value="{{id}}">{{departname}}</option>
+                            {{/each}}
+                        {{else}}
+                              <option value="-1">Bạn chưa được thiết lập quyền đăng bài</option>
+                        {{/if}}
+                        {{!-- <option value="-1">-1</option> --}}
+                          
+                         
+                        </select><br>
+                        
+                        <label for="files-input" class="blue-text">File đính kèm</label> <br>
+                        <input class="my-file-input" type="file" id="files-input" id="files-input" name="notification-files" multiple> <br>
+                        
+                        {{#if addnotificationErr}}
+                          <div class="w-100 alert alert-danger alert-dismissible fade text-center p-2 show mt-3" role="alert">
+                            {{addnotificationErr}}    
+                          </div>
+                        
+                        {{/if}}
+                        {{#if addnotificationSucc}}
+                          <div class="w-100 alert alert-success alert-dismissible fade text-center p-2 show mt-3" role="alert">
+                            {{addnotificationSucc}}    
+                          </div>
+                        
+                        {{/if}}
+
+
+                        {{#if departments.length}} {{!Nếu người dùng không có quyền đăng bài nào thi disabled cái button}}
+                            <div> <!--Hiển thị khi tạo thông báo-->
+                              <button type="submit" class="my-btn my-btn-1 show-my-loading">Tạo thông báo</button>
+                            </div>
+                        {{else}}
+                              <div> <!--Hiển thị khi tạo thông báo-->
+                                <button disabled type="submit" class="my-btn my-btn-1">Tạo thông báo</button>
+                              </div>
+                        {{/if}}
+                        
+
+                       
+                      </form>
+                  </div>
+                  </div>

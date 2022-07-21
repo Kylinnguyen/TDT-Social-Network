@@ -1,0 +1,81 @@
+<!-- Đang được bao bởi <div class="container wrapper"> và <div class="row">-->
+<!--start: phần nội dung chính-->
+
+<!--start: phần bao thanh điều hướng, timeline và thông báo-->
+  {{#with account}} {{!Nếu đã đến được home thì chắc chắn có account}}
+  <div class="col-xl-11 col-lg-11 mx-auto row">
+  <!--strat: thanh điều hướng-->
+    <div class="my-bg-1 p-0 my-nav-1">
+      <ul class="nav nav-pills">
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" href="/home">Dòng thời gian</a>
+        </li>
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Thông báo</a>
+          <ul class="dropdown-menu p-0">
+            <li><a class="dropdown-item" href="/notification">Tất cả</a></li>
+            <li><a class="dropdown-item" href="/department">Theo phòng, khoa</a></li>
+            {{#notification_manager_show rolecode}} {{!Helper xét rolecode của account để hiển thị phần quản lý thông báo}}
+              <li><a class="dropdown-item" href="/notification/add">Thêm thông báo</a></li>
+              <li><a class="dropdown-item" href="/notification/manager">Quản lý thông báo</a></li>
+            {{/notification_manager_show}}
+          </ul>
+        </li>
+      </ul>
+    </div>
+  <!--end: thanh điều hướng-->
+  
+  <!--start: phần timeline-->
+  <div class="col-xl-8 col-lg-8 timeline-wrapper">
+    <!--Chỗ nhấn đăng bài-->
+    <div class="post to-new-post p-4">
+      <!--Chỗ hiển thị ảnh đại diện và cái chỗ nhấn hiện form đăng bài-->
+      <div class="top-post">
+        <a href="/wall?id={{id}}" class="me-2">
+          <img src="{{information.avatar}}" class="avatar-img-round">
+        </a>
+        <div class="click-to-new-post sm-text">
+          Muốn ghi gì nào bạn hiền ?
+        </div>
+      </div>
+    </div>
+    {{/with}}
+    <div class="post-wrapper" data-postslength="{{postsLength}}"> {{!postsLength dùng để xác định số post hiện có}}
+      {{#showPosts posts account}}
+      {{/showPosts}}
+    </div>
+    {{!loading để cho người dùng biết là đang load}}
+    <div class="w-100 d-flex flex-column justify-content-center align-items-center mb-1" id="get-post-loading">
+       
+        <div class="d-flex justify-content-center">
+        
+          <div class="spinner-border" role="status">
+          
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+      </div>
+  </div>
+  <!--end: phần timeline-->
+
+  <!--start: phần thông báo-->
+  <div class="col-xl-4 col-lg-4 p-4 notification-wrapper">
+    <div class="top-notification"> <!--Phần đầu của ô chứa các thông báo-->
+    <div>Thông báo</div>
+    <div><a href="/notification" class="blue-text">Xem tất cả</a></div>
+    </div>
+    <hr>
+    {{!onload="setGiveNotification();" để thiết lập kết nối nhận thông báo từ phía server}}
+    <div class="body-notification"> <!--Phần chứa các thông báo (hiển thị phòng khoa - thời gian - tiêu đề)-->
+      {{#showListNotifications notifications}}
+      {{/showListNotifications}}
+    </div>
+    
+  </div>
+  <!--end: phần thông báo-->
+  </div>
+  
+<!--end: phần bao thanh điều hướng, timeline và thông báo-->
+  
+
+<!--end: phần nội dung chính-->

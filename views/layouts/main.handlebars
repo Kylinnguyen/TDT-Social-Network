@@ -1,0 +1,467 @@
+<html>
+    <head>
+        <title>{{title}}</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+        {{!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script> --}}
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js" integrity="sha384-q2kxQ16AaE6UbzuKqyBE9/u/KzioAlnx2maXQHiDX9d4/zp8Ok3f+M7DPm+Ib6IU" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.min.js" integrity="sha384-pQQkAEnwaBkjpqZ8RU1fF1AKtTcHJwFl3pblpTlHXybJjHpMYo79HY3hIi4NKxyj" crossorigin="anonymous"></script>
+        <script src="https://cdn.socket.io/4.0.0/socket.io.min.js" integrity="sha384-DkkWv9oJFWLIydBXXjkBWnG1/fuVhw8YPBq37uvvD6WSYRFRqr21eY5Dg9ZhmWdy" crossorigin="anonymous"></script>
+        <link type="text/css" rel="stylesheet" href="/stylesheets/style.css"/>
+        <script type="text/javascript" src="/javascripts/main.js"></script>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+  <link rel="stylesheet" href="https://cdnjs.com/libraries/ekko-lightbox">
+        <!-- Google signin -->
+        <meta name="google-signin-client_id" content="777673536157-0cjcqfvi9fvk57hqvpheu9ld45mjg9ul.apps.googleusercontent.com">
+        <script src="https://apis.google.com/js/platform.js?onload=renderButton" async defer></script>
+        {{!User}}
+        {{#if account}}
+        <meta id="user" data-id={{account.id}}></meta>
+        <meta id="roleuser" data-rolename="{{account.rolecode}}"></meta>
+        {{/if}}
+    </head>
+    <body>
+        <!--start: Phần header-->
+        <div class="header">
+            <nav class="navbar navbar-expand-lg navbar-light ">
+                <div class="container-fluid">
+                  <a class="navbar-brand" href="/home"><img src="/img/project/logo.svg"></a>
+                  <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                  </button>
+                {{#if account}}
+                    {{#with account}}
+                        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 ps-3 pe-3 me-5">
+                                <li class="nav-item">
+                                    <a class="nav-link active" aria-current="page" href="/home">Trang chủ</a>
+                                </li>
+                                {{!-- <li class="nav-item">
+                                    <a class="nav-link" href="/home">Dòng thời gian</a>
+                                </li> --}}
+                                
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Thông báo</a>
+                                    <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="/notification">Tất cả</a></li>
+                                    <li><a class="dropdown-item" href="/department">Theo phòng, khoa</a></li>
+
+                                    {{#notification_manager_show rolecode}} {{!Helper xét rolecode của account để hiển thị phần quản lý thông báo}}
+                                       <li><a class="dropdown-item" href="/notification/add">Thêm thông báo</a></li>
+                                        <li><a class="dropdown-item" href="/notification/manager">Quản lý thông báo</a></li>
+                                    {{/notification_manager_show}}
+
+                                    </ul>
+                                </li>
+                                {{#accounts_manager_show rolecode}}
+                                    <li class="nav-item dropdown">
+                                      <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Tài khoản</a>
+                                      <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="/register">Đăng ký</a></li>
+                                        <li><a class="dropdown-item" href="/account/manager">Quản lý tài khoản</a></li>
+                                      </ul>
+                                </li>
+                                {{/accounts_manager_show}}
+                                <li class="nav-item dropdown">
+                                    <div class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-user me-2"></i> {{information.showname}}
+                                    </div>
+                                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                        {{#notification_manager_show rolecode}} {{!Helper xét rolecode của account để hiển thị phần quản lý thông báo}}
+                                        <li><a class="dropdown-item" href="/manager">Quản lý</a></li>
+                                        {{/notification_manager_show}}
+                                        <li><a class="dropdown-item" href="/wall?id={{id}}">Tường nhà</a></li>
+                                        <li><a class="dropdown-item" href="/account/information?id={{id}}">Thông tin cá nhân</a></li>
+                                        
+                                        
+                                        {{#change_password_show rolecode}} {{!Không hiện đổi mk đối tk sinh viên}}
+                                            <li><a class="dropdown-item" href="/account/changepassword">Đổi mật khẩu</a></li>
+                                        {{/change_password_show}}
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="/logout">Đăng xuất</a></li>
+                                    </ul>
+                                </li>
+                                <!-- <li class="nav-item">
+                                    <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a>
+                                </li> -->
+                            </ul>
+                        </div>
+                    {{/with}}
+                {{/if}}
+            </nav>
+        </div>
+        <!--end: Phần header-->
+        <!--start: phần nội dung chính-->
+        <div class="container wrapper">
+            <div class="row">
+                 {{{body}}}
+            </div>
+        </div>
+        <!--end: phần nội dung chính-->
+
+        <!--start: phần footer-->
+        <div class="footer">
+            <div class="d-flex flex-column justify-content-center align-items-center mt-3">
+                <span class="md-text">TDT Social Network</span>
+                <span class="md-text">2021 @ Dev by Bảo-Huy-Tín</span>
+            </div>
+        </div>
+        <!--end: phần footer-->
+
+
+
+
+
+
+
+
+
+    <!--start: một số form dùng - confirm dùng để hiển thị bằng javascript-->
+
+        <!--Form để điền nội dung đăng bài-->
+        <div class="modal fade" id="postModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalLabel">Tạo bài đăng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="postModalBody">
+                  <div class="post to-new-post shadow-hide">
+                    <!--Phần đầu-->
+                    <div class="top-post">
+                      <a href="/wall?id={{account.id}}" class="me-2">
+                         <img src="{{account.information.avatar}}" class="avatar-img-round">
+                      </a>
+                      <!--Phần tên hiển thị-->
+                      <div class="top-post-infor sm-text">
+                        <a href="/wall?id={{account.id}}"><div class="bold-text">{{account.information.showname}}</div></a>
+                        <!-- <div>dfsdfsdfdsfsdf</div> --> <!--dùng sau này hiển thị thời gian-->
+                      </div>
+                    </div>
+                    <!--Phần nhập nội dung-->
+                    <div class="type-input-post">
+                      <textarea id="add-post-content" class="w-100 textarea-post" placeholder="Nhập gì đó đi nè" name="content"></textarea>
+                    </div>
+                    <hr>
+                    {{!-- <!--Lựa chọn hình ảnh hoặc video (1 trong 2)-->
+                    <div class="options-button">
+                      <div>Thêm đính kèm (Chọn video hoặc hình ảnh)</div>
+                      
+                      <div class="post-input-options">
+                        <button class="my-btn my-btn-3" id="post-img-options">Hình ảnh</button>
+                        <button class="my-btn my-btn-3" id="post-video-options">Video</button>
+                      </div>
+                      
+                    </div> --}}
+                    
+                    <div class="post-input-group">
+                        <!--Dùng để thêm video-->
+                        <div id="add-post-videos" class="input-video-group">
+                          <label class="blue-text">Liên kết video</label>
+                          <div class="d-flex flex-row">
+                            <input class="my-input me-2" type="text" placeholder="Liên kết video" name="videos[]">
+                            {{!-- <div class="delete-index-video-show mt-2"><i class="fas fa-trash"></i></div> --}}
+                          </div>
+                    
+                        </div>
+                        <div data-id="postModal" class="red-text add-new-index-video"><i class="fas fa-plus"></i>Thêm vị trí video</div>
+                        <!--Dùng để thêm hình-->
+                        <div class="mb-3 mt-3 input-img-group">
+                          <label class="blue-text" for="imgpostinput">Thêm hình ảnh</label>
+                          <input data-id="postModal" type="file" class="form-control add-imgs-post" id="imgpostinput" name="imgs" multiple accept="image/*">
+                          <!--Khu vực hiển thị hình ảnh sau khi thêm file vào input -->
+                          <div class="img-input-after mt-3">
+
+                          </div>
+                        </div>
+                    </div>
+                  
+                    
+                  </div>
+                </div>
+                <div class="modal-footer">
+                   <div id="add-post-alert" class="w-100 alert alert-danger alert-dismissible fade text-center p-2 mt-3 mb-2" role="alert">
+                              
+                    </div>
+                    <div class="w-100 d-flex flex-column justify-content-center align-items-center mb-1 my-hide" id="add-post-loading">
+                      <span>Vui lòng đợi giây lát...</span>
+                      <div class="d-flex justify-content-center">
+                        
+                        <div class="spinner-border" role="status">
+                          
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="add-post-confirm">Xác nhận</button>
+                </div>
+              </div>
+          </div>
+        </div>
+
+
+        <!--Form để thay đổi nội dung đăng bài-->
+        <div class="modal fade" id="editpostModal" tabindex="-1" aria-labelledby="postModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="postModalLabel">Sửa bài đăng</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                  <div class="post to-new-post shadow-hide">
+                    <!--Phần đầu-->
+                    <div class="top-post">
+                      <a href="/wall?id={{account.id}}" class="me-2">
+                         <img src="{{account.information.avatar}}" class="avatar-img-round">
+                      </a>
+                      <!--Phần tên hiển thị-->
+                      <div class="top-post-infor sm-text">
+                        <a href="/wall?id={{account.id}}"><div class="bold-text">{{account.information.showname}}</div></a>
+                        <!-- <div>dfsdfsdfdsfsdf</div> --> <!--dùng sau này hiển thị thời gian-->
+                      </div>
+                    </div>
+                     <!--Phần nhập nội dung-->
+                    <div class="type-input-post">
+                      <textarea id="edit-post-content" class="w-100 textarea-post" placeholder="Nhập gì đó đi nè" name="content"></textarea>
+                    </div>
+                    <hr>
+                    <div class="post-input-group">
+                      <!--Dùng để thêm video-->
+                      
+                      <div id="edit-post-videos" class="input-video-group">
+                        <label class="blue-text">Liên kết video</label>
+                        
+                      </div>
+                      <div data-id="editpostModal" class="red-text add-new-index-video"><i class="fas fa-plus"></i>Thêm vị trí video</div>
+                      <!--Dùng để thêm hình-->
+                      <div class="mb-3 mt-3 input-img-group">
+                        <label class="blue-text" for="imgpostinputedit">Thêm hình ảnh</label>
+                        <input data-id="editpostModal" type="file" class="form-control add-imgs-post" id="imgpostinputedit" name="imgs" multiple accept="image/*">
+                        <!--Khu vực hiển thị hình ảnh sau khi thêm file vào input -->
+                        <div class="img-input-after mt-3">
+
+                        </div>
+                      </div>
+                  </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                   <div id="edit-post-alert" class="w-100 alert alert-danger alert-dismissible fade text-center p-2 mt-3 mb-2" role="alert">
+                              
+                    </div>
+                     <div class="w-100 d-flex flex-column justify-content-center align-items-center mb-1 my-hide" id="edit-post-loading">
+                      <span>Vui lòng đợi giây lát...</span>
+                      <div class="d-flex justify-content-center">
+                        
+                        <div class="spinner-border" role="status">
+                          
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                    </div>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                    <button type="button" class="btn btn-primary" id="editpostconfirm" onclick="editPost(this);">Xác nhận</button>
+                </div>
+              </div>
+          </div>
+        </div>
+
+
+
+
+
+      <!--Modal dùng để xác nhận xóa post-->
+      <div class="modal fade" id="confirm-delete-post-modal" tabindex="-1" aria-labelledby="postdeleteconfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="postdeleteconfirmModalLabel">Xác nhận xóa</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="postdeleteconfirmModalBody">
+                 Bác có chắc muốn xóa bài post này không ?
+              </div>
+              <div class="modal-footer">
+                  <div class="w-100 d-flex flex-column justify-content-center align-items-center mb-1 my-hide" id="delete-post-loading">
+                      <span>Vui lòng đợi giây lát...</span>
+                      <div class="d-flex justify-content-center">
+                        
+                        <div class="spinner-border" role="status">
+                          
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                  </div>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                  <button type="button" class="btn btn-primary" id="confirmed-delete-post-modal" onclick="confirmedDeletPost(this)">Xác nhận</button>
+              </div>
+            </div>
+        </div>
+      </div>
+      <!--Modal dùng để xác nhận xóa comment-->
+      <div class="modal fade" id="confirm-delete-comment-modal" tabindex="-1" aria-labelledby="commentdeleteconfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="commentdeleteconfirmModalLabel">Xác nhận xóa</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="commentdeleteconfirmModalBody">
+                 Bác có chắc muốn xóa comment này không ?
+              </div>
+              <div class="modal-footer">
+                   <div class="w-100 d-flex flex-column justify-content-center align-items-center mb-1" id="delete-comment-loading">
+                      <span>Vui lòng đợi giây lát...</span>
+                      <div class="d-flex justify-content-center">
+                        
+                        <div class="spinner-border" role="status">
+                          
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                  </div>
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                  <button type="button" class="btn btn-primary" id="confirmed-delete-comment-modal" onclick="confirmedDeleteComment(this);">Xác nhận</button>
+              </div>
+            </div>
+        </div>
+      </div>
+
+      {{!-- <!--Alert dùng để thông báo khi thông báo mới-->
+      <div id="notificationNotify" class="notification-alert alert alert-success fade show ssm-text" role="alert">
+        Bạn có một thông báo mới từ phòng công tác học sinh sinh viên.
+      </div> --}}
+      <!-- Toast dành cho notification-->
+      <div class="position-fixed bottom-0 end-0 p-3" style="z-index: 5">
+        <div id="new-notification-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            
+            <strong class="me-auto">Thông báo mới</strong>
+            
+            <button type="button" class="btn-close btn-toast-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            1234
+          </div>
+        </div>
+      </div>
+      <!-- Toast dành cho post-->
+      <div class="position-fixed bottom-0 start-0 p-3" style="z-index: 5">
+        <div id="post-toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+          <div class="toast-header">
+            
+            <strong class="me-auto">Thông báo mới</strong>
+            
+            <button type="button" class="btn-close btn-toast-close" data-bs-dismiss="toast" aria-label="Close"></button>
+          </div>
+          <div class="toast-body">
+            1234
+          </div>
+        </div>
+      </div>
+      <!-- Modal hiển thị lên một bài viết khi nhấn vào hình của nó-->
+      <div class="modal fade show mt-5 mb-5" id="show-options-imgs-videos-post" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+          <div class="modal-content">
+            <div class="modal-header">
+            
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body row">
+              <div class="col-xl-4 col-lg-4 col-md-2 col-sm-12 col-12">
+                <div class="top-post">
+                  <a href="#" class="me-2">
+                    <img src="{{information.avatar}}" class="avatar-img-round">
+                  </a>
+                <!--Một số phần về bài viết (thông tin cũng như nội dung bài viết)-->
+                  <div class="top-post-infor sm-text">
+                    <div class="bold-text"><a href="#">Tô Thanh Tín</a></div>
+                    <div>2 tiếng trước</div> <!--dùng sau này hiển thị thời gian-->
+                  </div>
+                </div>
+                <div class="content-post-wrapper">
+                    <span class="content-post"> dljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfkdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdffdfjlsdfjsdljfsdljfsdlfjsdsdfdsfsdfkhdskfjhdskfjhsdkflhsdkfhdskfsdhfksdhfksjdhfkjsdhfksdff</span>
+                </div>
+            </div>
+            <!-- Phần hình và video dạng slide-->
+              <div id="post-carousel" class="carousel slide col-xl-8 col-lg-8 col-md-10 col-sm-12 col-12" data-bs-touch="false" data-bs-interval="false">
+                <div class="carousel-inner">
+                  <div class="carousel-item active">
+                    <img src="https://scontent.fvca1-2.fna.fbcdn.net/v/t1.6435-9/164584792_3717412211647977_188027701257778328_n.jpg?_nc_cat=100&ccb=1-3&_nc_sid=730e14&_nc_ohc=ORGaN-C1ljMAX-vSOrk&_nc_ht=scontent.fvca1-2.fna&oh=44f315394c4098a3e0e9a9ec7afd9ebe&oe=608817DA" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <img src="https://scontent.fdad2-1.fna.fbcdn.net/v/t1.6435-9/162276876_3708380165884515_3295881115820578795_n.png?_nc_cat=110&ccb=1-3&_nc_sid=730e14&_nc_ohc=PNu-NuS0vXgAX8SwnNb&_nc_ht=scontent.fdad2-1.fna&oh=61d726a221b37d85725231382a5136da&oe=608A7397" class="d-block w-100" alt="...">
+                  </div>
+                  <div class="carousel-item">
+                    <iframe width="100%" height="350" src="https://youtube.com/embed/9HUYlvazIfk" allowfullscreen></iframe>
+                  </div>
+                </div>
+                <button class="carousel-control-prev my-btn-carousel" type="button" data-bs-target="#post-carousel" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next my-btn-carousel" type="button" data-bs-target="#post-carousel" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
+              </div>
+            
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+              
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!--modal hiển thị một số thông báo lỗi -->
+      <div class="modal fade" id="local-modal" tabindex="-1" aria-labelledby="commentdeleteconfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="commentdeleteconfirmModalLabel">Lưu ý</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body" id="commentdeleteconfirmModalBody">
+                 aaaaa
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Xác nhận</button>
+              </div>
+            </div>
+        </div>
+      </div>
+    <!-- modal hiển thị loading (hiển thị khi xử lý một tác vụ nào đó khá tốn thời gian và hiện lên cho mọi người biết) -->
+    <div class="modal fade" id="loading-modal" tabindex="-1" aria-labelledby="commentdeleteconfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+              
+              <div class="modal-body" id="loading-modal-body">
+                 <div class="w-100 d-flex flex-column justify-content-center align-items-center mb-1" id="local-loading">
+                      <span>Vui lòng đợi giây lát...</span>
+                      <div class="d-flex justify-content-center">
+                        
+                        <div class="spinner-border" role="status">
+                          
+                          <span class="visually-hidden">Loading...</span>
+                        </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+
+              </div>
+            </div>
+        </div>
+      </div>
+
+
+
+
+    </body>
+</html>

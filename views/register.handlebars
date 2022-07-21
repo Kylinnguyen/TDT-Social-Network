@@ -1,0 +1,47 @@
+<!--start: thẻ bao nội dung-->
+
+<div class="account-form mx-auto col-xl-9 col-lg-9 row">
+    
+        <!--nội dung bên trái-->
+    <div class="col-xl-5 col-lg-5 col-md-12 col-sm-12 col-12 p-4 account-form-left">
+        <div class="d-flex flex-row justify-content-between align-items-center mb-3">
+            <a href="/account/manager">
+                <i class="fas fa-arrow-left blue-text"></i>
+            </a>           
+        </div>
+        <div class="bg-text blue-text">Đăng ký</div>
+        <div class="sm-text">-Việc đăng ký tài khoản dùng để cung cấp tài khoản cho các người dùng thuộc các phòng ban, khoa có thể sử dụng hệ thống. Mật khẩu của tài khoản được tạo mặc định cùng 1 giá trị</div>
+    </div>
+    <!--nội dung bên phải -->
+    <div class="col-xl-7 col-lg-7 col-md-12 col-sm-12 col-12 p-4 account-form-right">
+        
+        <form action="/register" method="post">
+            <label for="username-input"  class="blue-text">Tài khoản</label> <br>
+            <input type="text" value="{{usernameVal}}" name="username" id="username-input" class="my-input" placeholder="Nhập tài khoản"> <br>
+            {{!-- <label for="password-input" class="blue-text">Mật khẩu</label> <br>
+            <input type="password" name="password" id="password-input" class="my-input" placeholder="Nhập mật khẩu">
+            <label for="passwordconfirm-input" class="blue-text">Xác nhận mật khẩu</label> <br>
+            <input type="password" name="passwordconfirm" id="passwordconfirm-input" class="my-input" placeholder="Nhập lại mật khẩu"> --}}
+            <label for="email-input" class="blue-text">Email</label> <br>
+            <input type="email" value="{{emailVal}}" name="email" id="email-input" class="my-input" placeholder="Nhập địa chỉ email">
+            <label for="email-input" class="blue-text">Phòng-khoa</label> <br>
+            <select class="select-department" name="department">
+                {{#each departments}}
+                    <option value="{{id}}">{{departname}}</option>
+                {{/each}}
+            </select>
+            {{#if registerErr}}
+                <div id="indexAlert" class="w-100 alert alert-danger alert-dismissible fade text-center p-2 show" role="alert">
+                    {{registerErr}}    
+                </div>
+            {{else}}
+                <div id="indexAlert" class="w-100 alert alert-danger alert-dismissible fade text-center p-2" role="alert">
+                  
+                </div>
+            {{/if}}
+            <button type="submit" class="my-btn my-btn-1 show-my-loading">Đăng ký</button>
+            
+        </form>
+    </div>
+</div>
+<!--end: thẻ bao nội dung-->

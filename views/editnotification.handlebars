@@ -1,0 +1,154 @@
+<div class="col-xl-11 col-lg-11 mx-auto row">
+                    <!--strat: thanh điều hướng-->
+                    <div class="my-bg-1 p-0 my-nav-1">
+                      <ul class="nav nav-pills">
+                        <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="/home">Dòng thời gian</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Thông báo</a>
+                          <ul class="dropdown-menu p-0">
+                            <li><a class="dropdown-item" href="/notification">Tất cả</a></li>
+                            <li><a class="dropdown-item" href="/department">Theo phòng, khoa</a></li>
+                            {{#notification_manager_show account.rolecode}} {{!Helper xét rolecode của account để hiển thị phần quản lý thông báo}}
+                              <li><a class="dropdown-item" href="/notification/add">Thêm thông báo</a></li>
+                              <li><a class="dropdown-item" href="/notification/manager">Quản lý thông báo</a></li>
+                            {{/notification_manager_show}}
+                            
+                          </ul>
+                        </li>
+                        
+                      </ul>
+                    </div>
+                    <!--end: thanh điều hướng-->
+                    <!--start: phần thêm - chỉnh sửa thông báo-->
+                    <div class="p-4 notification-form">
+                      {{#with notification}}
+                      <div class="mt-2">
+                          <a href="/notification/details?id={{id}}">
+                            <i class="fas fa-arrow-left blue-text"></i>
+                          </a>
+                      </div>
+                      <div class="bg-text blue-text">Chỉnh sửa thông báo</div>
+                      <form data-id={{id}} action="/notification/edit?id={{id}}" method="post" enctype="multipart/form-data">
+
+                        <label for="title-input"  class="blue-text">Id thông báo</label> <br>
+                        <input id="id-input" class="my-input" value="{{id}}" disabled> <br>
+
+                        <label for="title-input"  class="blue-text">Tiêu đề thông báo</label> <br>
+                        <input type="text" name="title" id="title-input" class="my-input" placeholder="Nhập tiêu đề" value="{{title}}"> <br>
+                        
+                       <label for="title-input"  class="blue-text">Ngày tạo</label> <br>
+                        <input type="text" class="my-input" value="{{notificationdate}}" disabled> <br>
+
+                        <label for="content-input" class="blue-text">Nội dung</label> <br>
+                        <textarea class="textarea-notification" name="content" id="content-input" placeholder="Nhập nội dung">{{content}}</textarea> <br>
+                      {{/with}}
+                        <label for="department-input" class="blue-text">Phòng-Khoa</label> <br>
+                        <select class="select-notification" name="department">
+                          {{#showDepartmentsForEditNotification notification departments}}
+                          {{/showDepartmentsForEditNotification}}
+                          {{!-- <option value="-2">-2</option> --}}
+                        </select><br>
+                        
+                        <label for="files-input" class="blue-text">File đính kèm</label> <br>
+                        <input class="my-file-input" type="file" id="files-input" id="files-input" name="notification-files" multiple> <br>
+                        {{#if notification.files.length}}
+                            
+                        <div class="file-attach-wrapper"><!--Hiển thị khi chỉnh sửa thông báo-->
+                          <div class="blue-text">Các file đính kèm</div>
+                          <div class="file-attach">
+                            <ul class="m-0 p-0">
+                              {{#each notification.files}}
+                              <li class="file-child-wrapper"> <!--một file đính kèm (dành cho khi chỉnh sửa thông báo)-->
+                                <div class="file-child-name me-2">
+                                  <a href="{{fileurl}}"class="blue-text" download>{{originfilename}}</a>
+                                </div>
+                                <a href="#" class="notification-file-delete" data-fileid="{{id}}" data-originfilename="{{originfilename}}"><i class="fas fa-times ssm-text red-text"></i></a>
+                              </li>
+                              
+                              {{/each}}
+                            </ul>
+                          </div>
+                        </div>
+                        {{/if}}
+
+                        {{#if editnotificationErr}}
+                          <div class="w-100 alert alert-danger alert-dismissible fade text-center p-2 show mt-3" role="alert">
+                            {{editnotificationErr}}    
+                          </div>
+                        
+                        {{/if}}
+                        {{#if editnotificationSucc}}
+                          <div class="w-100 alert alert-success alert-dismissible fade text-center p-2 show mt-3" role="alert">
+                            {{editnotificationSucc}}    
+                          </div>
+                        
+                        {{/if}}
+
+                        <div class="btn-wrapper"> <!--Hiển thị khi chỉnh sửa thông báo-->
+                          <button data-id="{{notification.id}}" type="button" class="my-btn my-btn-2 me-2" id="delete-notification">Xóa thông báo</button>
+                          <button type="submit" class="my-btn my-btn-1 show-my-loading" id="edit-notification">Sửa thông báo</button>
+                        </div>
+                      </form>
+                  </div>
+                  </div>
+
+                  <!-- Modal xác nhận xóa file -->
+                  <div>
+                      <div class="modal fade" id="confirm-delete-notification-file" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa file bài thông báo</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            </div>
+                            <div class="modal-footer">
+                                 <div class="w-100 d-flex flex-column justify-content-center align-items-center mb-1" id="delete-file-notification-loading">
+                                    <span>Vui lòng đợi giây lát...</span>
+                                    <div class="d-flex justify-content-center">
+                                      
+                                      <div class="spinner-border" role="status">
+                                        
+                                        <span class="visually-hidden">Loading...</span>
+                                      </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary cancel-delete-notification-file" data-bs-dismiss="modal">Hủy</button>
+                                <button type="button" class="btn btn-primary confirmed-delete-notification-file">Đồng ý</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                  </div>
+                  <!-- Modal xác nhận xóa bài thông báo -->
+                  <div>
+                      <div class="modal fade" id="confirm-delete-notification" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Xác nhận xóa bài thông báo</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                            </div>
+                            <div class="modal-footer">
+                              <div class="w-100 d-flex flex-column justify-content-center align-items-center mb-1" id="delete-notification-loading">
+                                    <span>Vui lòng đợi giây lát...</span>
+                                    <div class="d-flex justify-content-center">
+                                      
+                                      <div class="spinner-border" role="status">
+                                        
+                                        <span class="visually-hidden">Loading...</span>
+                                      </div>
+                                    </div>
+                                </div>
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
+                                <button type="button" class="btn btn-primary confirmed-delete-notification">Đồng ý</button>
+                            </div>
+                            </div>
+                        </div>
+                        </div>
+                  </div>

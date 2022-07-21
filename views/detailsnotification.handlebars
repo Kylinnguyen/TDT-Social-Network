@@ -1,0 +1,83 @@
+{{!Hiển thị chi tiết của một bài đăng thông báo}}
+
+
+              <div class="col-xl-11 col-lg-11 mx-auto row">
+                <!--strat: thanh điều hướng-->
+                <div class="my-bg-1 p-0 my-nav-1">
+                      <ul class="nav nav-pills">
+                        <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="/home">Dòng thời gian</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Thông báo</a>
+                          <ul class="dropdown-menu p-0">
+                            <li><a class="dropdown-item" href="/notification">Tất cả</a></li>
+                            <li><a class="dropdown-item" href="/department">Theo phòng, khoa</a></li>
+                            {{#notification_manager_show account.rolecode}} {{!Helper xét rolecode của account để hiển thị phần quản lý thông báo}}
+                              <li><a class="dropdown-item" href="/notification/add">Thêm thông báo</a></li>
+                              <li><a class="dropdown-item" href="/notification/manager">Quản lý thông báo</a></li>
+                            {{/notification_manager_show}}
+                            
+                          </ul>
+                        </li>
+                        
+                      </ul>
+                    </div>
+                <!--end: thanh điều hướng-->
+
+                <!--start: phần chi tiết thông báo-->
+                <div class="row my-bg-1 p-4 m-0">
+                  <div>
+                    {{#with notification}}
+                    <a href="/notification" class="blue-text"><span>Thông báo</span></a> / <a href="/notification?department={{department.id}}" class="blue-text"><span>{{department.departname}}</span></a>
+                    {{/with}}
+                  </div>
+                  <!--phần tiêu đề chi tiết thông báo-->
+                  {{!gọi helper kiểm tra xem người dùng hiện tại
+                  đang xem thông báo có quyền tương ứng để sửa bài này không
+                  nếu có thì hiển thị nút sửa lên để đi đến trang sửa -- ngược lại không hiện}}
+                  {{#showEditNotification notification account}} {{!account là biến luôn luôn có sau khi đăng nhập}}
+                  <div class="text-end"> <!--Hiển thị khi là thông báo có phòng khoa thuộc quyền hạn của mình (Hoặc AM)-->
+                    <a href="/notification/edit?id={{notification.id}}"><i class="fas fa-edit"></i></a>
+                    
+                  </div>
+                  {{/showEditNotification}}
+                  {{#with notification}}
+                  <div class="text-center blue-text bold-text bg-text notification-details-wrapper"> 
+                    {{title}}
+                  </div>
+                  <!--phần hiển thị ngày đăng và phòng khoa-->
+                  <div class="my-text-end red-text bold-text sm-text notification-details-wrapper mt-3">
+                    <!--Khi nhấn vào phòng - khoa đăng bài ta sẽ điều hướng sang trang hiển thị các thông báo của phòng khoa này--> 
+                    <span><a href="/notification?department={{department.id}}" class="red-text">{{department.departname}}</a></span> | <span>Ngày đăng: {{notificationdate}}</span>
+                  </div>
+                  <!--Nội dung chính của thông báo-->
+                  <div class="sm-text notification-details-wrapper mt-3"> 
+                    <p>
+                      {{{content}}}
+                    </p>
+                  </div>
+                  {{#if files.length}}
+                  
+                  <div class="file-attach-wrapper mt-3"><!--Các file đính kèm - Hiển thị khi chỉnh sửa thông báo-->
+                    <div class="blue-text">Các file đính kèm</div>
+                    <div class="file-attach">
+                      <ul class="m-0 p-0">
+                        {{#each files}}  
+                        <li class="file-child-wrapper"> <!--một file đính kèm -->
+                          <div class="file-child-name me-2">
+                            <a href="{{fileurl}}"class="blue-text" download>{{originfilename}}</a>
+                          </div>
+                          
+                        </li>
+                        {{/each}}
+                      </ul>
+                    </div>
+                  </div>
+                  {{/if}}
+                  {{/with}}
+                </div>
+                <!--end: phần chi tiết thông báo-->
+
+              </div>
+       

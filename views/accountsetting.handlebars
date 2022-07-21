@@ -1,0 +1,70 @@
+ <!--start: phần bao thanh điều hướng, timeline và thông báo-->
+                 <div class="col-xl-11 col-lg-11 mx-auto row">
+                    <!--strat: thanh điều hướng-->
+                    <div class="my-bg-1 p-0 my-nav-1">
+                      <ul class="nav nav-pills">
+                        <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="/home">Dòng thời gian</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Thông báo</a>
+                          <ul class="dropdown-menu p-0">
+                            <li><a class="dropdown-item" href="/notification">Tất cả</a></li>
+                            <li><a class="dropdown-item" href="/department">Theo phòng, khoa</a></li>
+                            {{#notification_manager_show account.rolecode}} {{!Helper xét rolecode của account để hiển thị phần quản lý thông báo}}
+                              <li><a class="dropdown-item" href="/notification/add">Thêm thông báo</a></li>
+                              <li><a class="dropdown-item" href="/notification/manager">Quản lý thông báo</a></li>
+                            {{/notification_manager_show}}
+                            
+                          </ul>
+                        </li>
+                        
+                      </ul>
+                    </div>
+                    <!--end: thanh điều hướng-->
+                    <!--start: phần chỉnh sửa thông tin cá nhân-->
+                    {{#with accountedit}}
+                    <div class="p-4 information-form">
+                      <a href="/account/information?id={{id}}" class="blue-text"><i class="fas fa-arrow-left"></i></a>
+                      <div class="bg-text blue-text mt-3">Thiết lập tài khoản</div>
+                      
+                      <form action="/account/setting?id={{id}}" method="post">
+                       
+                        <label for="showname-input"  class="blue-text">Tên tài khoản</label> <br>
+                        <input disabled type="text" id="showname-input" class="my-input" value="{{username}}"> <br>
+
+                         <label for="rolecode-input"  class="blue-text">Quyền tài khoản</label> <br>
+                        <input disabled type="text" id="rolecode-input" class="my-input" value="{{rolecode}}"> <br>
+
+                        <label for="class-input"  class="blue-text">Phòng khoa</label> <br>
+                        <input disabled type="text" id="class-input" class="my-input" value="{{departname}}"> <br>
+                      {{/with}}
+                        
+                        
+                        
+                        <div>
+                           {{#showDepartmentForAccountSetting currentDepartment departments accountedit}}
+                           {{/showDepartmentForAccountSetting}}
+                          
+                        </div>
+                        {{!Khi có thông báo lỗi}}
+                        {{#if settingaccountErr}}
+                          <div id="indexAlert" class="w-100 alert alert-danger alert-dismissible fade text-center p-2 show mt-3" role="alert">
+                            {{settingaccountErr}}    
+                          </div>
+                        
+                        {{/if}}
+                        {{!Khi có thông báo thành công}}
+                        {{#if settingaccountSucc}}
+                          <div id="indexAlert" class="w-100 alert alert-success alert-dismissible fade text-center p-2 show mt-3" role="alert">
+                            {{settingaccountSucc}}    
+                          </div>
+                        
+                        {{/if}}
+                        <div class="mt-5"> 
+                          <button type="submit" class="my-btn my-btn-1 show-my-loading" id="edit-information">Cập nhật</button>
+                        </div>
+                      </form>
+                  </div>
+                  </div>
+                 <!--end: phần chỉnh sửa thông tin cá nhân-->

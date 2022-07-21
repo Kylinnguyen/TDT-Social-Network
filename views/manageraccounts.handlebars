@@ -1,0 +1,69 @@
+                <div class="col-xl-11 col-lg-11 mx-auto row">
+                     <!--strat: thanh điều hướng-->
+                    <div class="my-bg-1 p-0 my-nav-1">
+                        <ul class="nav nav-pills">
+                            <li class="nav-item">
+                            <a class="nav-link" aria-current="page" href="/home">Dòng thời gian</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Thông báo</a>
+                            <ul class="dropdown-menu p-0">
+                                <li><a class="dropdown-item" href="/notification">Tất cả</a></li>
+                                <li><a class="dropdown-item" href="/department">Theo phòng, khoa</a></li>
+                                {{#notification_manager_show rolecode}} {{!Helper xét rolecode của account để hiển thị phần quản lý thông báo}}
+                                    <li><a class="dropdown-item" href="/notification/add">Thêm thông báo</a></li>
+                                    <li><a class="dropdown-item" href="/notification/manager">Quản lý thông báo</a></li>
+                                {{/notification_manager_show}}
+                            </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <!--end: thanh điều hướng-->
+
+                    <!--start: bảng danh sách tài khoản-->
+                
+                    <div class="my-bg-1">
+                    <div class="mt-2">
+                        <a href="/manager">
+                          <i class="fas fa-arrow-left blue-text"></i>
+                        </a>
+                    </div>
+                      <div class="d-flex flex-row justify-content-between align-items-center">
+                          <div class="bg-text red-text mt-3 mb-2 bold-text">Quản lý tài khoản</div>
+                          <div><a href="/register" class="blue-text bold-text">Đăng ký</a> </div>
+                      </div>
+                      <form action="/account/manager" method="GET">
+                        <div class="mt-3 blue-text">Chọn quyền tài khoản</div>
+                        {{#showFilterManagerAccounts rolecode field searchvalue}}
+                        {{/showFilterManagerAccounts}}
+                      </form>
+                     
+                      
+                      <table class="my-table">
+                        <thead>
+                          <tr>
+                            <th>STT</th>
+                            <th>Tên tài khoản</th>
+                            <th>Quyền</th>
+                          </tr>
+                        </thead>
+                      
+                        <tbody>
+                          {{#each accounts}}
+                            
+                            <tr>
+                                <td>{{stt}}</td>
+                                <td><a href="/account/information?id={{id}}">{{username}}</a></td>
+                                <td>{{rolecode}}</td>
+                            </tr>
+                        
+                          {{/each}}
+                          
+                        </tbody>
+                      </table>
+                    </div>
+                    <!--end: bảng danh sách tài khoản-->
+
+                    <!--start: phần thêm - chỉnh sửa thông báo-->
+                    
+                </div>

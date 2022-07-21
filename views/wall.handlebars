@@ -1,0 +1,84 @@
+<!--start: phần bao thanh điều hướng, timeline và thông báo-->
+                  <div class="col-xl-11 col-lg-11 mx-auto row">
+                    <!--strat: thanh điều hướng-->
+                    <div class="my-bg-1 p-0 my-nav-1">
+                      <ul class="nav nav-pills">
+                        <li class="nav-item">
+                          <a class="nav-link" aria-current="page" href="/home">Dòng thời gian</a>
+                        </li>
+                        <li class="nav-item dropdown">
+                          <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-expanded="false">Thông báo</a>
+                          <ul class="dropdown-menu p-0">
+                            <li><a class="dropdown-item" href="/notification">Tất cả</a></li>
+                            <li><a class="dropdown-item" href="/department">Theo phòng, khoa</a></li>
+                            {{#notification_manager_show account.rolecode}} {{!Helper xét rolecode của account để hiển thị phần quản lý thông báo}}
+                              <li><a class="dropdown-item" href="/notification/add">Thêm thông báo</a></li>
+                              <li><a class="dropdown-item" href="/notification/manager">Quản lý thông báo</a></li>
+                            {{/notification_manager_show}}
+                            
+                          </ul>
+                        </li>
+                        
+                      </ul>
+                    </div>
+                    <!--end: thanh điều hướng-->
+
+                    <!--start: phần thông tin hiển thị-->
+                    {{#with userwall}}
+                    <div class="row my-bg-1 p-4 m-0"> 
+                        <div class="text-center wall-avatar-wrapper">
+                            <img src="{{information.avatar}}" alt="...">
+                        </div>
+                     
+                      <div class="mx-auto text-center mt-3"> <!--Phần tên hiển thị - khoa,khoa (dành cho tài khoản phòng khoa)-->
+                        <div class="bold-text bg-text">{{information.showname}}</div>
+                        <div class="bold-text bg-text">Phòng-Khoa: {{information.department.departname}}</div>
+                        {{#showClassName rolecode}}
+                          {{#if information.classname}}
+                            <div class="bold-text bg-text">Lớp: {{information.classname}}</div>
+                          {{else}}
+                            <div class="bold-text bg-text">Lớp: Chưa cập nhật</div>
+                          {{/if}}
+                        {{/showClassName}}
+                      </div>
+                    </div>
+                    {{/with}}
+                    <!--end: phần thông tin hiển thị-->
+
+                   
+                     <!--start: phần timeline-->
+                    <div class="col-xl-8 col-lg-8 timeline-wrapper mt-5">
+                        {{#showPostLocation account userwall}}
+                        <div class="post to-new-post p-4">
+                        <!--Chỗ hiển thị ảnh đại diện và cái chỗ nhấn hiện form đăng bài -->
+                        <div class="top-post">
+                            <a href="/wall?id={{userwall.id}}" class="me-2">
+                            <img src="{{userwall.information.avatar}}" class="avatar-img-round">
+                            </a>
+                            <div class="click-to-new-post sm-text">
+                            Muốn ghi gì nào bạn hiền ?
+                            </div>
+                        </div>
+                        </div>
+                        {{/showPostLocation}}
+                        <!-- Các bài đăng -->
+                        <div class="post-wrapper" data-postslength="{{postsLength}}"> {{!postsLength dùng để xác định số post hiện có}}
+                            {{#showPosts posts account}}
+                            {{/showPosts}}
+                        </div>
+                        {{!loading để cho người dùng biết là đang load}}
+                        <div class="w-100 d-flex flex-column justify-content-center align-items-center mb-1" id="get-post-loading">
+                          
+                            <div class="d-flex justify-content-center">
+                            
+                              <div class="spinner-border" role="status">
+                              
+                                <span class="visually-hidden">Loading...</span>
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                    <!--end: phần timeline-->
+                    
+                  </div>

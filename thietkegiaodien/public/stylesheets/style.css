@@ -1,0 +1,661 @@
+/* ************************************************************************************* */
+
+*{
+    box-sizing: border-box;
+    font-family: 'Times New Roman', Times, serif;
+}
+
+a{
+    text-decoration: none;
+    color: black;
+}
+body{
+    background-color: #F7F7F7;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.wrapper{
+    margin-top:100px;
+    margin-bottom: 100px;
+    width: 100%;
+    
+}
+.component-hide{ /* class dùng để ẩn một số thành phần*/
+    display:none;
+    
+}
+
+.shadow-hide{ /* ẩn đi box shadow */
+    box-shadow: none !important;
+}
+
+/* start:định dạng header */
+.header{
+    background-color: #FFFFFF;
+    width: 100%;
+    position: fixed;
+    z-index: 9999;
+}
+
+/* end:định dạng header */
+
+
+
+
+
+/* start: định dạng footer */
+.footer{
+    margin-top: auto;
+    min-height: 100px;
+    background-color: #0061AD;
+    color:#FFFFFF;
+}
+/* end: định dạng footer */
+
+/* start: định dạng form đăng nhập - đăng ký */
+.account-form, .notification-form, .information-form{ /* định dạng cho form đăng nhập -- đăng ký -- và form thêm, chỉnh sửa thông báo */
+    box-shadow: 10px 10px 10px #c7c8ca;
+    background-color: #FFFFFF;
+    min-height: 300px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+    
+    
+}
+.account-form-left{ /* định dạng phần bên trái của form đăng nhập - đăng ký */
+   
+   
+}
+.account-form-right{ /* định dạng phần bên phải của form đăng nhập - đăng ký */
+    
+   
+}
+
+/* end: định dạng form đăng nhập - đăng ký */
+
+
+
+/* start: định dạng phần timeline (dòng thời gian) */
+
+.post{ /* định dạng chung cho mỗi phần tử post (bao gồm khung đăng bài) trong phần time line */
+    border:1px solid transparent;
+    border-radius: 5px;
+    min-height: 100px;
+    width: 100%;
+    background-color: #FFFFFF;
+    margin-bottom: 16px;
+    box-shadow: 8px 8px 20px #c7c8ca;
+    
+}
+.to-new-post{ /* định dạng cho khung đăng bài */
+    
+   
+}
+
+.avatar-img-round{ /* định dạng chung cho phần hình ảnh đại diện tròn */
+    border: 1px solid transparent;
+    border-radius: 40px;
+    max-width: 45px;
+}
+
+.avatar-img-round-comment{ /* định dạng cho phần hình ảnh đại diện tròn của phần comment */
+    
+    max-width: 40px;
+}
+
+
+
+.top-post, .comment-post{ /* định dạng cho phần phía trên của một bài post (đối với khung đăng là hình ảnh đại diện và chỗ nhấn đăng bài)
+                                                            (còn đối với một bài đăng là hình ảnh tên người thời gian */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+.click-to-new-post{/* định dạng cho cái chỗ input nhấn hiện form đăng bài */
+    cursor: pointer;
+    border-radius: 10px !important;
+    padding: 5px;
+    background-color: #F0F2F5;
+    width: 100%;
+    text-indent: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.click-to-new-post:hover{
+    background-color: #cecfd1;
+    
+}
+.top-post-infor{ /* định dạng phần thông tin của form đăng bài */
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content:center;
+
+}
+.post-input-options{ /* định dạng cho phần các nút chọn options hình ảnh hoặc video */
+    display: flex;
+    flex-direction: row;
+    justify-content:space-between;
+    
+}
+.dropdown-post{
+    border: none;
+    background-color: #FFFFFF;
+    color: #65676B;
+}
+.img-post-wrapper{
+   height: 600px;
+}
+.img-post-wrapper img{
+    width:100%;
+    height: 100%;
+    object-fit: cover;
+   
+ }
+.content-post{/* nội dung của bài post */
+    overflow: hidden;/* kết hợp overflow và overflow-wrap này để nội dung không tràn quá width của div */
+    overflow-wrap: break-word;
+}
+.comment-post{ /* định dạng phần comment */
+ 
+    width: 100%;
+}
+.comment{
+    
+    overflow: hidden; /* kết hợp overflow và overflow-wrap này để nội dung không tràn quá width của div */
+    overflow-wrap: break-word;
+    
+    
+}
+.content-comment{ /* định dạng nội dung comment (chứa tên người comment và nội dung comment) */
+    
+    background-color:#F0F2F5;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 4px;
+    padding: 6px 12px 6px 12px;
+    border-radius: 10px;
+   
+    
+}
+.time-comment{ /* định dạng phần thời gian dưới comment */
+    color: #65676B;
+    text-align: end;
+    padding: 0px 5px
+}
+
+.comment-edit{ /* định dạng phần dropdown comment */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+.comment-edit-symbol{ /* định dạng phần kí tự của dropdown comment -- cho nó color trắng để ẩn đi*/
+   color: #FFFFFF;
+}
+.comment-post:hover .comment-edit-symbol{ /* khi hover cả comment thì đổi màu cho cái kí tự dropdown mới hiện lên*/
+    color: #65676B;
+}
+.dropdown:hover .comment-edit-symbol{ /* khi hover vào cái dropdown thì đổi màu lại kí tự thành trắng cho phù hợp với màu nền */
+    color: #FFFFFF;
+}
+/* end: định dạng phần timeline (dòng thời gian) */
+
+
+/*start: định dạng phần ô chứa các thông báo */
+.notification-wrapper{ /* định dạng khung bao toàn bộ ô chứa thông báo */
+    background-color: #FFFFFF;
+    box-shadow: 8px 8px 20px #c7c8ca;
+    max-height:400px;
+    overflow-y: scroll;
+    overflow-wrap: break-word;
+    margin-bottom: 16px;
+}
+.notification-not-scroll{ /* ở trang thông báo chính ta không cần giới hạn scroll */
+    max-height: none;
+    overflow: unset;
+}
+.notification{ /* định dạng chung cho các thông báo */
+    padding: 6px 12px 6px 12px;
+    margin-bottom: 16px;
+    background-color: #CAE8FF;
+}
+.top-notification{ /* định dạng phần mở đầu của ô chứa thông báo */
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.notification-introduce{ /* phần giới thiệu phòng ban và thời gian của thông báo*/
+    display: flex;
+    color: #65676B;
+    justify-content: space-between;
+}
+.notification-alert{ /* định dạng cho phần thông báo có thông báo mới ở timeline */
+    position: fixed;
+    right: 7.5%;
+    bottom: 5%;
+    width: 300px;
+    text-align: center;
+}
+/*end: định dạng phần ô chứa các thông báo */
+
+/*start: định dạng cho trang thông báo riêng biết -- kết hợp với các class thông báo ở phần timeline */
+/*end: định dạng cho trang thông báo riêng biết -- kết hợp với các class thông báo ở phần timeline */
+
+/*start: định dạng cho phần pagination */
+.pagination-wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+/*end: định dạng cho phần pagination */
+
+/*start: định dạng phần thêm, chỉnh sửa thông báo */
+.file-attach-wrapper{ /* lớp bao tổng quát của các file đính kèm */
+    margin-bottom: 16px;
+}
+.file-attach{
+    padding: 10px;
+    background-color: #F0F2F5;
+}
+.file-child-wrapper{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.file-child-name{
+    overflow:hidden;
+    white-space: nowrap; /* Don't forget this one */
+    text-overflow: ellipsis;
+}
+/*end: định dạng phần thêm, chỉnh sửa thông báo */
+
+
+
+/*start: định dạng cho phần quản lý tài khoản */
+
+/*end: định dạng cho phần quản lý tài khoản */
+
+/*start: định dạng cho phần trang cá nhân */
+.avatar-img-round-wall-wrapper{ /* khung bao hình */
+    border: 3px solid #65676B;
+    border-radius: 100%;
+    margin-bottom: 16px;
+}
+.avatar-img-round-wall{ /* định dạng cho phần hình đại diện trong trang hiển thị */
+    border: 1px solid transparent;
+    border-radius: 100%;
+    max-width: 100%;
+}
+
+
+
+.department-setting-form{ /* định dạng form chứa các checkbox cho việc thiết lập chịu trách nhiệm */
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    
+}
+.responsible-department{ /* định dạng cho phần checkbox chịu trách nhiệm */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+/*end: định dạng cho phần trang cá nhân */
+
+/*start: định dạng cho phần chỉnh sửa thông tin cá nhân */
+
+.avatar-img-square{
+    width: 50%;
+}
+/*end: định dạng cho phần chỉnh sửa thông tin cá nhân */
+
+
+/*start: định dạng cho phần chi tiết thông báo */
+.notification-details-wrapper{ /* định dạng cho phần bao của các phần chi tiết thông báo */
+    overflow: hidden;
+    overflow-wrap: break-word;
+}
+/*end: định dạng cho phần chi tiết thông báo */
+
+/*start: định dạng cho phần danh sách các phòng khoa */
+.department-wrapper{ /* định dạng cho một phòng khoa */
+    margin-bottom: 16px;
+}
+.department-top{
+    border: 3px solid #0061AD;
+}
+.department-top img{ /* định dạng phần hình ảnh của danh sách phòng - khoa */
+    width: 80%;
+    
+}
+/*end: định dạng cho phần danh sách các phòng khoa */
+
+
+/* ************************************************************************************* */
+
+/* định dạng chung cho các table */
+.my-table{
+    border: 1px solid #65676B;
+    width: 100%;
+    margin-bottom: 30px;
+    
+}
+.my-table tr{
+    border-top: 1px solid #65676B;
+   
+    
+}
+.my-table tr th, .my-table tr td{
+    padding:1%;
+    text-align: center;
+    overflow:hidden;
+    white-space: nowrap; /* Don't forget this one */
+    text-overflow: ellipsis;
+}
+
+
+/* định dạng cho các button */
+
+.my-btn{ /* định dạng chung cho các thẻ button */
+    border: 1px solid transparent;
+    color: #FFFFFF;
+    padding:5px;
+    width: 100%;
+    margin-bottom: 15px;
+}
+.my-btn:hover{
+    background-color: #FFFFFF;
+}
+.my-btn-1{ /* dạng button bẻ 4 góc - màu xanh */
+    border-radius: 5px;
+    background-color: #0061AD;
+}
+
+.my-btn-1:hover{ /* khi hover */
+    border:1px solid #0061AD;
+    color: #0061AD;
+}
+
+.my-btn-2{ /* dạng button bẻ 4 góc - màu đỏ */
+    border-radius: 5px;
+    background-color: #DE412E;
+}
+
+.my-btn-2:hover{ /* khi hover */
+    border:1px solid #DE412E;
+    color: #DE412E;
+}
+.my-btn-3{ /* dạng button bẻ 4 góc - màu đỏ */
+    border: 1px solid #0061AD;
+    border-radius: 5px;
+    background-color: #FFFFFF;
+    color: rgb(58, 56, 56);
+    width: 45% !important;
+}
+.my-btn-4{
+    border-radius: 5px;
+    background-color: #0061AD;
+    width: 25%;
+    margin-top: 16px;
+}
+.my-btn-4:hover{
+   
+    background-color: #FFFFFF;
+    border: 1px solid #0061AD;
+    color: #0061AD;
+}
+.btn-wrapper{ /* định dạng cho lớp bao hơn 2 button*/
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+
+/* ************************************************************************************* */
+
+/* định dạng một số màu nền */
+.my-bg-1{
+    background-color: #FFFFFF;
+    box-shadow: 8px 8px 20px #c7c8ca;
+}
+
+/* ************************************************************************************* */
+
+/* định dạng về active */
+.my-active-1{
+    background-color: #DE412E;
+    color: #FFFFFF !important;
+}
+.my-active-2{
+    background-color: #1877F2;
+    border-radius: 0px !important;
+}
+
+/* ************************************************************************************* */
+
+/* định dạng về navbar*/
+
+.my-nav-1{
+    margin-bottom: 16px;
+    
+}
+
+/* ************************************************************************************* */
+
+/* định dạng cho các thẻ input (dạng nhập dữ liệu) */
+.my-input{
+    outline: none;
+    padding: 5px;
+    text-indent: 5px;
+    border: 1px solid transparent;
+    background-color: #F0F2F5;
+    width:100%;
+    margin-bottom:16px;
+}
+.my-input:focus{
+    border:1px solid #0061AD;
+}
+.my-input-round{ /* bẻ cong input */
+    border-radius: 10px;
+}
+
+.my-file-input{
+    margin-bottom: 16px;
+}
+
+/* định dạng phần text area cho việc nhập bài post */
+.textarea-post{
+    margin-top:16px;
+    width: 100%;
+    outline: none;
+    height: 100px;
+    overflow-y: scroll;
+    border: 1px solid transparent;
+}
+.textarea-notification{
+    margin-bottom:16px;
+    padding: 8px;
+    width: 100%;
+    outline: none;
+    height: 200px;
+    overflow-y: scroll;
+    background-color: #F0F2F5;
+    
+}
+/* định dạng cho select */
+.select-notification,.select-accounts-manager, .select-department{
+    margin-bottom: 16px;
+    padding: 8px;
+    width: 50%;
+    background-color: #F0F2F5;
+
+}
+.select-accounts-manager{
+    margin-top: 16px;
+}
+.select-department{
+    width: 100%;
+}
+/* định dạng cho modal */
+.modal{
+    z-index:999999;
+}
+
+
+/* ************************************************************************************* */
+/* start : định dạng chữ */
+.bg-text{
+    font-weight: bold;
+    
+}
+.blue-text{
+    color:#0061AD;
+}
+.red-text{
+    color: #DE412E;
+}
+.bold-text{
+    font-weight: bold;
+}
+.hidden-long-text{ /* xử lý khi chuỗi quá dài -- kiểu ẩn bớt và hiện ... */
+    overflow:hidden;
+    white-space: nowrap; /* Don't forget this one */
+    text-overflow: ellipsis;
+}
+.my-text-end{
+    text-align: right;
+}
+/* end : định dạng chữ */
+
+/* start: định dạng responsive */
+
+@media (min-width: 1200px){ /* định dạng cho size xl */
+    /* .wrapper::after{
+        content: "xl";
+    } */
+
+    .bg-text{
+        font-size: 24px;
+    }
+    .md-text{
+        font-size: 18px;
+    }
+    .sm-text{
+        font-size: 16px;
+    }
+    .ssm-text{
+        font-size: 12px;
+    }
+    .img-post-wrapper{ /* định dang khung chứa hình */
+        height: 600px;
+     }
+     .notification-alert{
+         width: 300px;
+     }
+    .select-notification,.select-accounts-manager{
+       
+        width: 50%;
+    }
+    .my-text-end{
+        text-align: right;
+    }
+   
+}
+
+@media (max-width: 1200px){ /* định dạng cho size lg */
+    /* .wrapper::after{
+        content: "large";
+    } */
+
+    /* bg-text, md-text và sm-text chịu sự ảnh hưởng từ size xl */
+    /*  .account-form chịu sự ảnh hưởng của size xl*/
+    .notification-alert{
+        width: 300px;
+    }
+   
+}
+
+@media (max-width: 992px){ /* định dạng cho size md */
+    /* .wrapper::after{
+        content: "medium";
+    } */
+
+    .bg-text{
+        font-size: 20px;
+    }
+    .md-text{
+        font-size: 16px;
+    }
+    .sm-text{
+        font-size: 14px;
+    }
+    .ssm-text{
+        font-size: 11px;
+    }
+    .img-post-wrapper{ /* định dang khung chứa hình */
+        height: 400px;
+     }
+     .notification-alert{
+        width: 340px;
+    }
+    .select-notification,.select-accounts-manager{
+       
+        width: 100%;
+    }
+    .my-table{
+        font-size:12px;
+    }
+    .my-text-end{
+        text-align: center;
+    }
+     
+}  
+    
+
+
+@media (max-width: 768px){ /* định dạng cho size sm */
+    /* .wrapper::after{
+        content: "small";
+    } */
+
+    .bg-text{
+        font-size: 18px;
+    }
+    .md-text{
+        font-size: 14px;
+    }
+    .sm-text{
+        font-size: 12px;
+    }
+    .ssm-text{
+        font-size: 10px;
+    }
+    .img-post-wrapper{ /* định dang khung chứa hình */
+        height: 300px;
+     }
+     .comment{
+        width:85%;
+    }
+   
+}
+    
+
+
+@media (max-width: 576px){ /* định dạng cho size nhỏ nhất - nhỏ hơn sm */
+    /* .wrapper::after{
+        content: "more small";
+    } */
+    
+     /* bg-text, md-text và sm-text chịu sự ảnh hưởng từ size sm */
+      /*  .account-form chịu sự ảnh hưởng của size sm*/
+      .notification-alert{
+        width: 300px;
+    }
+ }
+ 
+
+ 
